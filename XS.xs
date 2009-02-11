@@ -13,30 +13,38 @@ typedef PerlIO *	InputStream;
 #define TABSTOP    8
 
 static void
-store( image, x, y, c, attr, wrap ) // stores a pixel in the ansi (calls putpixel)
+store( image, x, y, c, attr, wrap, width, height )
     SV *image;
     int *x;
     int *y;
     char c;
     int attr;
     int wrap;
+    int *width;
+    int *height;
 {
     HV *pixel = newHV();
     hv_store( pixel, "char", 4, newSVpvn( &c, 1 ), 0 );
     hv_store( pixel, "attr", 4, newSViv( attr ), 0 );
 
-    dSP;
-    ENTER;
-    SAVETMPS;
-    PUSHMARK( SP );
-    PUSHs( image );
-    PUSHs( sv_2mortal( newRV_noinc((SV *)pixel) ) );
-    PUSHs( sv_2mortal( newSViv( *x ) ) );
-    PUSHs( sv_2mortal( newSViv( *y ) ) );
-    PUTBACK;
-    call_method( "putpixel", G_DISCARD );
-    FREETMPS;
-    LEAVE;
+    AV *rows = (AV *) SvRV( *hv_fetch( (HV *) SvRV( image ), "pixeldata", 9, 0 ) );
+
+    int l = av_len( rows );
+    AV *row = l < *y ? newAV() : (AV *) SvRV( *av_fetch( rows, *y, 0 ) );
+    av_store( row, *x, newRV_inc((SV *) pixel ) );
+
+    if( l < *y ) {
+        av_store( rows, *y, newRV_inc((SV *) row) );
+    }
+
+    if( *x + 1 > *width ){
+        *width = *x + 1;
+    }
+
+    if( *y + 1 > *height ){
+        *height = *y + 1;
+    }
+
     (*x)++;
     if( *x == wrap ) {
         *x = 0; (*y)++;
@@ -94,6 +102,8 @@ PREINIT:
     int save_y = 0;
     int attr = 7;
     int wrap = WRAP;
+    int width = 0;
+    int height = 0;
     AV *args = newAV();
 CODE:
     int i;
@@ -120,19 +130,19 @@ CODE:
                         count = ( x + 1 ) % TABSTOP;
                         if( count ) {
                             for ( i = 0; i < count; i++ ) {
-                                store( image, &x, &y, ' ', attr, wrap );
+                                store( image, &x, &y, ' ', attr, wrap, &width, &height );
                             }
                         }
                         break;
                     default :
-                        store( image, &x, &y, c, attr, wrap );
+                        store( image, &x, &y, c, attr, wrap, &width, &height );
                         break;
                 }
                 break;
             case S_CHK_B    : // check for a left square bracket
                 if( c != '[' ) {
-                    store( image, &x, &y, '\x1b', attr, wrap );
-                    store( image, &x, &y, c, attr, wrap );
+                    store( image, &x, &y, '\x1b', attr, wrap, &width, &height );
+                    store( image, &x, &y, c, attr, wrap, &width, &height );
                     state = S_TXT;
                 }
                 else {
@@ -201,6 +211,10 @@ CODE:
                             call_method( "clear_screen", G_DISCARD );
                             FREETMPS;
                             LEAVE;
+
+                            width = 0;
+                            height = 0;
+
                             break;
                         case 'K' : // clear line
                             ENTER;
@@ -227,6 +241,28 @@ CODE:
             default         : break;
         }
     }
+
+    // set width + height of the image
+    ENTER;
+    SAVETMPS;
+    PUSHMARK( SP );
+    PUSHs( image );
+    PUSHs( sv_2mortal( newSViv( width ) ) );
+    PUTBACK;
+    call_method( "width", G_DISCARD );
+    FREETMPS;
+    LEAVE;
+
+    ENTER;
+    SAVETMPS;
+    PUSHMARK( SP );
+    PUSHs( image );
+    PUSHs( sv_2mortal( newSViv( height ) ) );
+    PUTBACK;
+    call_method( "height", G_DISCARD );
+    FREETMPS;
+    LEAVE;
+
     RETVAL = SvREFCNT_inc( image );
 OUTPUT:
     RETVAL
