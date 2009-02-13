@@ -31,10 +31,10 @@ store( image, x, y, c, attr, wrap, width, height )
 
     int l = av_len( rows );
     AV *row = l < *y ? newAV() : (AV *) SvRV( *av_fetch( rows, *y, 0 ) );
-    av_store( row, *x, newRV_inc((SV *) pixel ) );
+    av_store( row, *x, newRV_noinc((SV *) pixel ) );
 
     if( l < *y ) {
-        av_store( rows, *y, newRV_inc((SV *) row) );
+        av_store( rows, *y, newRV_noinc((SV *) row) );
     }
 
     if( *x + 1 > *width ){
