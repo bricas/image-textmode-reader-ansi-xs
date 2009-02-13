@@ -129,6 +129,7 @@ CODE:
                     case '\t'   :
                         count = ( x + 1 ) % TABSTOP;
                         if( count ) {
+                            count = TABSTOP - count;
                             for ( i = 0; i < count; i++ ) {
                                 store( image, &x, &y, ' ', attr, wrap, &width, &height );
                             }
