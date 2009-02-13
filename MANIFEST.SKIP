@@ -27,3 +27,8 @@
 
 # No tarballs!
 \.gz$
+
+# XS related
+\.bs$
+\.c$
+\.o$
