@@ -43,7 +43,7 @@ same name.
 
 =head1 BENCHMARK
 
-Parsing 74K of ANSI 25 times yields:
+Versus Image::TextMode 0.05, parsing 74K of ANSI 25 times yields:
 
     Benchmark: timing 25 iterations of PP, XS...
             PP: 24 wallclock secs (23.84 usr +  0.00 sys = 23.84 CPU) @  1.05/s (n=25)
