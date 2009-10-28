@@ -111,8 +111,8 @@ CODE:
     sv_2mortal( (SV * ) args );
 
     // get options
-    if( hv_exists( options, "width", 8 ) ) {
-        wrap = SvIV(* hv_fetch( options, "width", 8, 0 ) );
+    if( hv_exists( options, "width", 5 ) ) {
+        wrap = SvIV(* hv_fetch( options, "width", 5, 0 ) );
     }
 
     PerlIO_rewind( file );
