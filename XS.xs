@@ -166,8 +166,8 @@ CODE:
                             break;
                         case 'H' : // set position
                         case 'f' :
-                            y = SvIV(* av_fetch( args, 0, 0 ) );
-                            x = SvIV(* av_fetch( args, 1, 0 ) );
+                            y = av_len( args ) < 1 ? 0 : SvIV(* av_fetch( args, 0, 0 ) );
+                            x = av_len( args ) < 2 ? 0 : SvIV(* av_fetch( args, 1, 0 ) );
                             if( !y ) {
                                 y = 1;
                             }

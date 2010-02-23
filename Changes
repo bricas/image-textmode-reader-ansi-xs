@@ -1,5 +1,8 @@
 Revision history for Perl extension Image::TextMode::Reader::ANSI::XS.
 
+0.03  To be released
+    - Fix "set position" command when less than 2 args are used
+
 0.02  Thu Oct 29 2009
     - fix width option handling
 
