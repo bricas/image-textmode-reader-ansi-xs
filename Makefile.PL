@@ -13,6 +13,4 @@ requires 'Image::TextMode' => '0.05';
 
 test_requires 'Test::More';
 
-extra_tests;
-
 WriteAll;
