@@ -43,14 +43,15 @@ same name.
 
 =head1 BENCHMARK
 
-Versus Image::TextMode 0.05, parsing 74K of ANSI 25 times yields:
-
-    Benchmark: timing 25 iterations of PP, XS...
-            PP: 24 wallclock secs (23.84 usr +  0.00 sys = 23.84 CPU) @  1.05/s (n=25)
-            XS:  1 wallclock secs ( 1.00 usr +  0.00 sys =  1.00 CPU) @ 25.00/s (n=25)
+    Image::TextMode version 0.08
+    Image::TextMode::Reader::ANSI::XS version 0.03
+    Filesize: 75501 bytes
+    Benchmark: timing 50 iterations of PP, XS...
+            PP: 46 wallclock secs (45.57 usr +  0.04 sys = 45.61 CPU) @  1.10/s (n=50)
+            XS:  2 wallclock secs ( 1.97 usr +  0.01 sys =  1.98 CPU) @ 25.25/s (n=50)
          Rate    PP    XS
-    PP 1.05/s    --  -96%
-    XS 25.0/s 2284%    --
+    PP 1.10/s    --  -96%
+    XS 25.3/s 2204%    --
 
 =head1 AUTHOR
 
