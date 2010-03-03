@@ -1,5 +1,8 @@
 Revision history for Perl extension Image::TextMode::Reader::ANSI::XS.
 
+0.04  To be released
+    - Fix adding new rows to places other than the very end
+
 0.03  Tue Feb 23 2010
     - Fix "set position" command when less than 2 args are used
 

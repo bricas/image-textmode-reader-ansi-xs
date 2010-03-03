@@ -29,11 +29,18 @@ store( image, x, y, c, attr, wrap, width, height )
 
     AV *rows = (AV *) SvRV( *hv_fetch( (HV *) SvRV( image ), "pixeldata", 9, 0 ) );
 
-    int l = av_len( rows );
-    AV *row = l < *y ? newAV() : (AV *) SvRV( *av_fetch( rows, *y, 0 ) );
+    int newrow = 1;
+    AV *row = newAV();
+    SV **elem_p = av_fetch( rows, *y, FALSE );
+
+    if( elem_p ) {
+        row = (AV *) SvRV( *elem_p );
+        newrow = 0;
+    }
+
     av_store( row, *x, newRV_noinc((SV *) pixel ) );
 
-    if( l < *y ) {
+    if( newrow ) {
         av_store( rows, *y, newRV_noinc((SV *) row) );
     }
 
