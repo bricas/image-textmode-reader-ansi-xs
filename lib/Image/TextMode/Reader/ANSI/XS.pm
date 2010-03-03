@@ -3,7 +3,7 @@ package Image::TextMode::Reader::ANSI::XS;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use base ( 'Image::TextMode::Reader', 'DynaLoader' );
 
