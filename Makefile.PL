@@ -13,4 +13,6 @@ requires 'Image::TextMode' => '0.05';
 
 test_requires 'Test::More';
 
+repository 'http://github.com/bricas/image-textmode-reader-ansi-xs';
+
 WriteAll;
