@@ -2,12 +2,13 @@ package Image::TextMode::Reader::ANSI::XS;
 
 use strict;
 use warnings;
+use XSLoader;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
-use base ( 'Image::TextMode::Reader', 'DynaLoader' );
+use base 'Image::TextMode::Reader';
 
-bootstrap Image::TextMode::Reader::ANSI::XS $VERSION;
+XSLoader::load( 'Image::TextMode::Reader::ANSI::XS', $VERSION );
 
 =head1 NAME
 
