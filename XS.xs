@@ -122,6 +122,10 @@ CODE:
         wrap = SvIV(* hv_fetch( options, "width", 5, 0 ) );
     }
 
+    if( !wrap ) {
+        wrap = WRAP;
+    }
+
     PerlIO_rewind( file );
 
     while ( state != S_END && ( c = PerlIO_getc( file ) ) != -1 ) {
