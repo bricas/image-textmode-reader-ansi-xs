@@ -44,15 +44,15 @@ same name.
 
 =head1 BENCHMARK
 
-    Image::TextMode version 0.08
-    Image::TextMode::Reader::ANSI::XS version 0.03
+    Image::TextMode version 0.12
+    Image::TextMode::Reader::ANSI::XS version 0.05
     Filesize: 75501 bytes
     Benchmark: timing 50 iterations of PP, XS...
-            PP: 46 wallclock secs (45.57 usr +  0.04 sys = 45.61 CPU) @  1.10/s (n=50)
-            XS:  2 wallclock secs ( 1.97 usr +  0.01 sys =  1.98 CPU) @ 25.25/s (n=50)
+            PP: 43 wallclock secs (42.25 usr +  0.04 sys = 42.29 CPU) @  1.18/s (n=50)
+            XS:  2 wallclock secs ( 2.11 usr +  0.03 sys =  2.14 CPU) @ 23.36/s (n=50)
          Rate    PP    XS
-    PP 1.10/s    --  -96%
-    XS 25.3/s 2204%    --
+    PP 1.18/s    --  -95%
+    XS 23.4/s 1876%    --
 
 =head1 AUTHOR
 
@@ -60,7 +60,7 @@ Brian Cassidy E<lt>bricas@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2009-2010 by Brian Cassidy
+Copyright 2009-2011 by Brian Cassidy
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 

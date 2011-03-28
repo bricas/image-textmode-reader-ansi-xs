@@ -1,6 +1,6 @@
 Revision history for Perl extension Image::TextMode::Reader::ANSI::XS.
 
-0.05  To Be Released
+0.05  Mon Mar 28 2011
     - Use XSLoader instead of DynaLoader
     - Use standard width for SAUCE data that reports 0 for the width
 
