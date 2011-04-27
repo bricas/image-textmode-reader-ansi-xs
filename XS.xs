@@ -208,6 +208,24 @@ CODE:
                             if( !i ) i = 1;
                             x -= i;
                             break;
+                        case 'E' : // next line
+                            i = SvIV(* av_fetch( args, 0, 0 ) );
+                            if( !i ) i = 1;
+                            x = 0;
+                            y += i;
+                            break;
+                        case 'F' : // previous line
+                            i = SvIV(* av_fetch( args, 0, 0 ) );
+                            if( !i ) i = 1;
+                            x = 0;
+                            y -= i;
+                            if( y < 0 ) y = 0;
+                            break;
+                        case 'G' : // horizontal move
+                            i = SvIV(* av_fetch( args, 0, 0 ) );
+                            if( !i ) i = 1;
+                            x = i - 1;
+                            break;
                         case 's' : // save position
                             save_x = x; save_y = y;
                             break;
