@@ -1,22 +1,22 @@
 Revision history for Perl extension Image::TextMode::Reader::ANSI::XS.
 
-0.06  TO BE RELEASED
-    - Reset cursor to (0,0) after a clear screen
-    - Implement ANSI parsing for codes E, F and G
+0.06 2011-04-27
+ - Reset cursor to (0,0) after a clear screen
+ - Implement ANSI parsing for codes E, F and G
 
-0.05  Mon Mar 28 2011
-    - Use XSLoader instead of DynaLoader
-    - Use standard width for SAUCE data that reports 0 for the width
+0.05 2011-03-28
+ - Use XSLoader instead of DynaLoader
+ - Use standard width for SAUCE data that reports 0 for the width
 
-0.04  Fri Mar 19 2010
-    - Fix adding new rows to places other than the very end
+0.04 2010-03-19
+ - Fix adding new rows to places other than the very end
 
-0.03  Tue Feb 23 2010
-    - Fix "set position" command when less than 2 args are used
+0.03 2010-02-23
+ - Fix "set position" command when less than 2 args are used
 
-0.02  Thu Oct 29 2009
-    - fix width option handling
+0.02 2009-10-29
+ - fix width option handling
 
-0.01  Fri Feb 13 2009
-    - original version
+0.01 2009-02-13
+ - original version
 
