@@ -177,21 +177,18 @@ CODE:
                             break;
                         case 'H' : // set position
                         case 'f' :
-                            y = av_len( args ) < 0 ? 0 : SvIV(* av_fetch( args, 0, 0 ) );
-                            x = av_len( args ) < 1 ? 0 : SvIV(* av_fetch( args, 1, 0 ) );
-                            if( !y ) {
-                                y = 1;
-                            }
+                            y = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
+                            x = av_len( args ) < 1 ? 1 : SvIV(* av_fetch( args, 1, 0 ) );
                             y--;
-                            if( !x ) {
-                                x = 1;
-                            }
                             x--;
+                            if( y < 0 ) y = 0;
+                            if( x < 0 ) x = 0;
                             break;
                         case 'A' : // move up
                             i = SvIV(* av_fetch( args, 0, 0 ) );
                             if( !i ) i = 1;
                             y -= i;
+                            if( y < 0 ) y = 0;
                             break;
                         case 'B' : // move down
                             i = SvIV(* av_fetch( args, 0, 0 ) );
@@ -207,6 +204,7 @@ CODE:
                             i = SvIV(* av_fetch( args, 0, 0 ) );
                             if( !i ) i = 1;
                             x -= i;
+                            if( x < 0 ) x = 0;
                             break;
                         case 'E' : // next line
                             i = SvIV(* av_fetch( args, 0, 0 ) );
