@@ -1,6 +1,6 @@
 Revision history for Perl extension Image::TextMode::Reader::ANSI::XS.
 
-0.07 TO BE RELEASED
+0.07 2011-05-02
  - Fix some parsing to more closely match perl code
  - Implement the 0 and 1 options of the "clear screen" command
  - Implement the 0 and 1 options of the "clear line" command
