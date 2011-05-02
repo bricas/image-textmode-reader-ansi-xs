@@ -9,7 +9,7 @@ perl_version '5.008';
 name 'Image-TextMode-Reader-ANSI-XS';
 all_from 'lib/Image/TextMode/Reader/ANSI/XS.pm';
 
-requires 'Image::TextMode' => '0.05';
+requires 'Image::TextMode' => '0.14';
 
 test_requires 'Test::More';
 

@@ -231,31 +231,111 @@ CODE:
                             x = save_x; y = save_y;
                             break;
                         case 'J' : // clear screen
-                            ENTER;
-                            SAVETMPS;
-                            PUSHMARK( SP );
-                            PUSHs( image );
-                            PUTBACK;
-                            call_method( "clear_screen", G_DISCARD );
-                            FREETMPS;
-                            LEAVE;
+                            i = SvIV(* av_fetch( args, 0, 0 ) );
 
-                            width = 0;
-                            height = 0;
-                            x = 0;
-                            y = 0;
+                            if( !i ) {
+                                int row;
+                                int next = y + 1;
+                                for( row = 1; row <= height - next + 1; row++ ) {
+                                    ENTER;
+                                    SAVETMPS;
+                                    PUSHMARK( SP );
+                                    PUSHs( image );
+                                    PUSHs( sv_2mortal( newSViv( next ) ) );
+                                    PUTBACK;
+                                    call_method( "delete_line", G_DISCARD );
+                                    FREETMPS;
+                                    LEAVE;
+                                    height--;
+                                }
 
+                                ENTER;
+                                SAVETMPS;
+                                PUSHMARK( SP );
+                                PUSHs( image );
+                                PUSHs( sv_2mortal( newSViv( y ) ) );
+                                AV *cols = newAV();
+                                av_store( cols, 0, newSViv( x ) );
+                                av_store( cols, 1, newSViv( -1 ) );
+                                PUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
+                                PUTBACK;
+                                call_method( "clear_line", G_DISCARD );
+                                FREETMPS;
+                                LEAVE;
+                            }
+                            else if( i == 1 ) {
+                                int row;
+                                for( row = 0; row < y; row++ ) {
+                                    ENTER;
+                                    SAVETMPS;
+                                    PUSHMARK( SP );
+                                    PUSHs( image );
+                                    PUSHs( sv_2mortal( newSViv( row ) ) );
+                                    PUTBACK;
+                                    call_method( "clear_line", G_DISCARD );
+                                    FREETMPS;
+                                    LEAVE;
+                                }
+
+                                ENTER;
+                                SAVETMPS;
+                                PUSHMARK( SP );
+                                PUSHs( image );
+                                PUSHs( sv_2mortal( newSViv( y ) ) );
+                                AV *cols = newAV();
+                                av_store( cols, 0, newSViv( 0 ) );
+                                av_store( cols, 1, newSViv( x ) );
+                                PUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
+                                PUTBACK;
+                                call_method( "clear_line", G_DISCARD );
+                                FREETMPS;
+                                LEAVE;
+                            }
+                            else if( i == 2 ) {
+                                ENTER;
+                                SAVETMPS;
+                                PUSHMARK( SP );
+                                PUSHs( image );
+                                PUTBACK;
+                                call_method( "clear_screen", G_DISCARD );
+                                FREETMPS;
+                                LEAVE;
+
+                                width = 0;
+                                height = 0;
+                                x = 0;
+                                y = 0;
+                            }
                             break;
                         case 'K' : // clear line
+                            i = SvIV(* av_fetch( args, 0, 0 ) );
+
                             ENTER;
                             SAVETMPS;
                             PUSHMARK( SP );
                             PUSHs( image );
                             PUSHs( sv_2mortal( newSViv( y ) ) );
+
+                            if( !i ) {
+                                AV *cols = newAV();
+                                av_store( cols, 0, newSViv( x ) );
+                                av_store( cols, 1, newSViv( -1 ) );
+                                PUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
+                            }
+                            else if( i == 1 ) {
+                                AV *cols = newAV();
+                                av_store( cols, 0, newSViv( 0 ) );
+                                av_store( cols, 1, newSViv( x ) );
+                                PUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
+                            }
+                            else if( i == 2 ) { // no additional args
+                            }
+
                             PUTBACK;
                             call_method( "clear_line", G_DISCARD );
                             FREETMPS;
                             LEAVE;
+
                             break;
                         default:
                             break;
