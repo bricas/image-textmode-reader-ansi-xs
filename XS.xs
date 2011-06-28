@@ -240,10 +240,11 @@ CODE:
                                     ENTER;
                                     SAVETMPS;
                                     PUSHMARK( SP );
-                                    PUSHs( image );
-                                    PUSHs( sv_2mortal( newSViv( next ) ) );
+                                    XPUSHs( image );
+                                    XPUSHs( sv_2mortal( newSViv( next ) ) );
                                     PUTBACK;
-                                    call_method( "delete_line", G_DISCARD );
+                                    call_method( "delete_line", G_DISCARD | G_VOID );
+                                    SPAGAIN;
                                     FREETMPS;
                                     LEAVE;
                                     height--;
@@ -252,14 +253,15 @@ CODE:
                                 ENTER;
                                 SAVETMPS;
                                 PUSHMARK( SP );
-                                PUSHs( image );
-                                PUSHs( sv_2mortal( newSViv( y ) ) );
+                                XPUSHs( image );
+                                XPUSHs( sv_2mortal( newSViv( y ) ) );
                                 AV *cols = newAV();
                                 av_store( cols, 0, newSViv( x ) );
                                 av_store( cols, 1, newSViv( -1 ) );
-                                PUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
+                                XPUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
                                 PUTBACK;
-                                call_method( "clear_line", G_DISCARD );
+                                call_method( "clear_line", G_DISCARD | G_VOID );
+                                SPAGAIN;
                                 FREETMPS;
                                 LEAVE;
                             }
@@ -269,10 +271,11 @@ CODE:
                                     ENTER;
                                     SAVETMPS;
                                     PUSHMARK( SP );
-                                    PUSHs( image );
-                                    PUSHs( sv_2mortal( newSViv( row ) ) );
+                                    XPUSHs( image );
+                                    XPUSHs( sv_2mortal( newSViv( row ) ) );
                                     PUTBACK;
-                                    call_method( "clear_line", G_DISCARD );
+                                    call_method( "clear_line", G_DISCARD | G_VOID );
+                                    SPAGAIN;
                                     FREETMPS;
                                     LEAVE;
                                 }
@@ -280,14 +283,15 @@ CODE:
                                 ENTER;
                                 SAVETMPS;
                                 PUSHMARK( SP );
-                                PUSHs( image );
-                                PUSHs( sv_2mortal( newSViv( y ) ) );
+                                XPUSHs( image );
+                                XPUSHs( sv_2mortal( newSViv( y ) ) );
                                 AV *cols = newAV();
                                 av_store( cols, 0, newSViv( 0 ) );
                                 av_store( cols, 1, newSViv( x ) );
-                                PUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
+                                XPUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
                                 PUTBACK;
-                                call_method( "clear_line", G_DISCARD );
+                                call_method( "clear_line", G_DISCARD | G_VOID );
+                                SPAGAIN;
                                 FREETMPS;
                                 LEAVE;
                             }
@@ -295,12 +299,12 @@ CODE:
                                 ENTER;
                                 SAVETMPS;
                                 PUSHMARK( SP );
-                                PUSHs( image );
+                                XPUSHs( image );
                                 PUTBACK;
-                                call_method( "clear_screen", G_DISCARD );
+                                call_method( "clear_screen", G_DISCARD | G_VOID );
+                                SPAGAIN;
                                 FREETMPS;
                                 LEAVE;
-
                                 width = 0;
                                 height = 0;
                                 x = 0;
@@ -313,26 +317,27 @@ CODE:
                             ENTER;
                             SAVETMPS;
                             PUSHMARK( SP );
-                            PUSHs( image );
-                            PUSHs( sv_2mortal( newSViv( y ) ) );
+                            XPUSHs( image );
+                            XPUSHs( sv_2mortal( newSViv( y ) ) );
 
                             if( !i ) {
                                 AV *cols = newAV();
                                 av_store( cols, 0, newSViv( x ) );
                                 av_store( cols, 1, newSViv( -1 ) );
-                                PUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
+                                XPUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
                             }
                             else if( i == 1 ) {
                                 AV *cols = newAV();
                                 av_store( cols, 0, newSViv( 0 ) );
                                 av_store( cols, 1, newSViv( x ) );
-                                PUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
+                                XPUSHs( sv_2mortal( newRV_noinc((SV *) cols) ) );
                             }
                             else if( i == 2 ) { // no additional args
                             }
 
                             PUTBACK;
-                            call_method( "clear_line", G_DISCARD );
+                            call_method( "clear_line", G_DISCARD | G_VOID );
+                            SPAGAIN;
                             FREETMPS;
                             LEAVE;
 
@@ -356,20 +361,22 @@ CODE:
     ENTER;
     SAVETMPS;
     PUSHMARK( SP );
-    PUSHs( image );
-    PUSHs( sv_2mortal( newSViv( width ) ) );
+    XPUSHs( image );
+    XPUSHs( sv_2mortal( newSViv( width ) ) );
     PUTBACK;
-    call_method( "width", G_DISCARD );
+    call_method( "width", G_DISCARD | G_VOID );
+    SPAGAIN;
     FREETMPS;
     LEAVE;
 
     ENTER;
     SAVETMPS;
     PUSHMARK( SP );
-    PUSHs( image );
-    PUSHs( sv_2mortal( newSViv( height ) ) );
+    XPUSHs( image );
+    XPUSHs( sv_2mortal( newSViv( height ) ) );
     PUTBACK;
-    call_method( "height", G_DISCARD );
+    call_method( "height", G_DISCARD | G_VOID );
+    SPAGAIN;
     FREETMPS;
     LEAVE;
 
