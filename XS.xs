@@ -115,7 +115,11 @@ PREINIT:
 CODE:
     int i;
     int count;
+    char *feature;
     sv_2mortal( (SV * ) args );
+
+    // render options hashref
+    HV *render_opts = (HV *) SvRV( *hv_fetch( (HV *) SvRV( image ), "render_options", 14, 0 ) );
 
     // get options
     if( hv_exists( options, "width", 5 ) ) {
@@ -164,7 +168,7 @@ CODE:
             case S_WAIT_LTR : // wait for a letter to exec. a command
                 if ( isALPHA( c ) || c == ';' ) {
                     argbuf[arg_index] = 0;
-                    av_push( args, newSViv( atoi( argbuf ) ) );
+                    av_push( args, newSVpv( argbuf, 0 ) );
                     arg_index = 0;
                     if( c == ';' )
                         break;
@@ -223,6 +227,18 @@ CODE:
                             i = SvIV(* av_fetch( args, 0, 0 ) );
                             if( !i ) i = 1;
                             x = i - 1;
+                            break;
+                        case 'h' : // feature on
+                            feature = SvPV_nolen(* av_fetch( args, 0, 0 ) );
+                            if( strcmp( feature, "?33" ) == 0 ) {
+                                hv_store( render_opts, "blink_mode", 10, newSViv( 0 ), 0 );
+                            }
+                            break;
+                        case 'l' : // feature off
+                            feature = SvPV_nolen(* av_fetch( args, 0, 0 ) );
+                            if( strcmp( feature, "?33" ) == 0 ) {
+                                hv_store( render_opts, "blink_mode", 10, newSViv( 1 ), 0 );
+                            }
                             break;
                         case 's' : // save position
                             save_x = x; save_y = y;
