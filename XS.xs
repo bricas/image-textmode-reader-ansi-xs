@@ -167,9 +167,11 @@ CODE:
                 break;
             case S_WAIT_LTR : // wait for a letter to exec. a command
                 if ( isALPHA( c ) || c == ';' ) {
-                    argbuf[arg_index] = 0;
-                    av_push( args, newSVpv( argbuf, 0 ) );
-                    arg_index = 0;
+                    if( arg_index > 0 ) {
+                        argbuf[arg_index] = 0;
+                        av_push( args, newSVpv( argbuf, 0 ) );
+                        arg_index = 0;
+                    }
                     if( c == ';' )
                         break;
                 }
@@ -189,53 +191,46 @@ CODE:
                             if( x < 0 ) x = 0;
                             break;
                         case 'A' : // move up
-                            i = SvIV(* av_fetch( args, 0, 0 ) );
-                            if( !i ) i = 1;
+                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
                             y -= i;
                             if( y < 0 ) y = 0;
                             break;
                         case 'B' : // move down
-                            i = SvIV(* av_fetch( args, 0, 0 ) );
-                            if( !i ) i = 1;
+                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
                             y += i;
                             break;
                         case 'C' : // move right
-                            i = SvIV(* av_fetch( args, 0, 0 ) );
-                            if( !i ) i = 1;
+                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
                             x += i;
                             break;
                         case 'D' : // move left
-                            i = SvIV(* av_fetch( args, 0, 0 ) );
-                            if( !i ) i = 1;
+                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
                             x -= i;
                             if( x < 0 ) x = 0;
                             break;
                         case 'E' : // next line
-                            i = SvIV(* av_fetch( args, 0, 0 ) );
-                            if( !i ) i = 1;
+                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
                             x = 0;
                             y += i;
                             break;
                         case 'F' : // previous line
-                            i = SvIV(* av_fetch( args, 0, 0 ) );
-                            if( !i ) i = 1;
+                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
                             x = 0;
                             y -= i;
                             if( y < 0 ) y = 0;
                             break;
                         case 'G' : // horizontal move
-                            i = SvIV(* av_fetch( args, 0, 0 ) );
-                            if( !i ) i = 1;
+                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
                             x = i - 1;
                             break;
                         case 'h' : // feature on
-                            feature = SvPV_nolen(* av_fetch( args, 0, 0 ) );
+                            feature = av_len( args ) < 0 ? "" : SvPV_nolen(* av_fetch( args, 0, 0 ) );
                             if( strcmp( feature, "?33" ) == 0 ) {
                                 hv_store( render_opts, "blink_mode", 10, newSViv( 0 ), 0 );
                             }
                             break;
                         case 'l' : // feature off
-                            feature = SvPV_nolen(* av_fetch( args, 0, 0 ) );
+                            feature = av_len( args ) < 0 ? "" : SvPV_nolen(* av_fetch( args, 0, 0 ) );
                             if( strcmp( feature, "?33" ) == 0 ) {
                                 hv_store( render_opts, "blink_mode", 10, newSViv( 1 ), 0 );
                             }
@@ -247,7 +242,7 @@ CODE:
                             x = save_x; y = save_y;
                             break;
                         case 'J' : // clear screen
-                            i = SvIV(* av_fetch( args, 0, 0 ) );
+                            i = av_len( args ) < 0 ? 0 : SvIV(* av_fetch( args, 0, 0 ) );
 
                             if( !i ) {
                                 int row;
@@ -328,7 +323,7 @@ CODE:
                             }
                             break;
                         case 'K' : // clear line
-                            i = SvIV(* av_fetch( args, 0, 0 ) );
+                            i = av_len( args ) < 0 ? 0 : SvIV(* av_fetch( args, 0, 0 ) );
 
                             ENTER;
                             SAVETMPS;
