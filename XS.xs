@@ -65,6 +65,8 @@ set_attrs( attr, args ) // set the current attribute byte
 {
     int i;
     int arg;
+    int oldfg;
+    int oldbg;
 
     for( i = 0; i <= av_len( args ); i++ ) {
         arg = SvIV(* av_fetch( args, i, 0 ) );
@@ -74,8 +76,19 @@ set_attrs( attr, args ) // set the current attribute byte
         else if ( arg == 1 ) {
             *attr |= 8;
         }
+        else if ( arg == 2 || arg == 22 ) {
+            *attr &= 247;
+        }
         else if ( arg == 5 ) {
             *attr |= 128;
+        }
+        else if ( arg == 7 || arg == 27 ) {
+            oldfg = *attr & 15;
+            oldbg = ( *attr & 240 ) >> 4;
+            *attr = oldbg | ( oldfg << 4 );
+        }
+        else if ( arg == 25 ) {
+            *attr &= 127;
         }
         else if ( arg >= 30 && arg <= 37 ) {
             *attr &= 248;
