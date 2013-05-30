@@ -20,17 +20,16 @@ printf "Image\::TextMode\::Reader\::ANSI\::XS version %s\n",
     Image::TextMode::Reader::ANSI::XS->VERSION;
 printf "Filesize: %d bytes\n", -s ( $file );
 
-my $image    = Image::TextMode::Format::ANSI->new;
-my $pureperl = Image::TextMode::Reader::ANSI->new;
-my $xs       = Image::TextMode::Reader::ANSI::XS->new;
+my $image_pp = Image::TextMode::Format::ANSI->new;
+my $image_xs = Image::TextMode::Format::ANSI->new;
 
 open( my $f, '<', $file );
 binmode( $f );
 
 my $r = Benchmark::timethese(
     $iters,
-    {   'PP' => sub { $pureperl->_read( $image, $f, { width => 80 } ) },
-        'XS' => sub { $xs->_read( $image,       $f, { width => 80 } ) },
+    {   'PP' => sub { local $ENV{ IMAGE_TEXTMODE_NOXS } = 1; $image_pp->read( $f, { width => 80 } ) },
+        'XS' => sub { $image_xs->read( $f, { width => 80 } ) },
     }
 );
 
