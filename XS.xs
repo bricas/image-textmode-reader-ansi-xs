@@ -116,6 +116,7 @@ CODE:
     int i;
     int count;
     char *feature;
+    SV **temp_pv;
     sv_2mortal( (SV * ) args );
 
     // render options hashref
@@ -167,11 +168,9 @@ CODE:
                 break;
             case S_WAIT_LTR : // wait for a letter to exec. a command
                 if ( isALPHA( c ) || c == ';' ) {
-                    if( arg_index > 0 ) {
-                        argbuf[arg_index] = 0;
-                        av_push( args, newSVpv( argbuf, 0 ) );
-                        arg_index = 0;
-                    }
+                    argbuf[arg_index] = 0;
+                    av_push( args, newSVpv( argbuf, 0 ) );
+                    arg_index = 0;
                     if( c == ';' )
                         break;
                 }
@@ -183,44 +182,53 @@ CODE:
                             break;
                         case 'H' : // set position
                         case 'f' :
-                            y = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
-                            x = av_len( args ) < 1 ? 1 : SvIV(* av_fetch( args, 1, 0 ) );
+                            temp_pv = av_fetch( args, 0, TRUE );
+                            y = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 1;
+                            temp_pv = av_fetch( args, 1, TRUE );
+                            x = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 1;
                             y--;
                             x--;
                             if( y < 0 ) y = 0;
                             if( x < 0 ) x = 0;
                             break;
                         case 'A' : // move up
-                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
+                            temp_pv = av_fetch( args, 0, TRUE );
+                            i = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 1;
                             y -= i;
                             if( y < 0 ) y = 0;
                             break;
                         case 'B' : // move down
-                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
+                            temp_pv = av_fetch( args, 0, TRUE );
+                            i = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 1;
                             y += i;
                             break;
                         case 'C' : // move right
-                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
+                            temp_pv = av_fetch( args, 0, TRUE );
+                            i = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 1;
                             x += i;
                             break;
                         case 'D' : // move left
-                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
+                            temp_pv = av_fetch( args, 0, TRUE );
+                            i = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 1;
                             x -= i;
                             if( x < 0 ) x = 0;
                             break;
                         case 'E' : // next line
-                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
+                            temp_pv = av_fetch( args, 0, TRUE );
+                            i = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 1;
                             x = 0;
                             y += i;
                             break;
                         case 'F' : // previous line
-                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
+                            temp_pv = av_fetch( args, 0, TRUE );
+                            i = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 1;
                             x = 0;
                             y -= i;
                             if( y < 0 ) y = 0;
                             break;
                         case 'G' : // horizontal move
-                            i = av_len( args ) < 0 ? 1 : SvIV(* av_fetch( args, 0, 0 ) );
+                            temp_pv = av_fetch( args, 0, TRUE );
+                            i = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 1;
                             x = i - 1;
                             break;
                         case 'h' : // feature on
@@ -242,7 +250,8 @@ CODE:
                             x = save_x; y = save_y;
                             break;
                         case 'J' : // clear screen
-                            i = av_len( args ) < 0 ? 0 : SvIV(* av_fetch( args, 0, 0 ) );
+                            temp_pv = av_fetch( args, 0, TRUE );
+                            i = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 0;
 
                             if( !i ) {
                                 int row;
@@ -323,7 +332,8 @@ CODE:
                             }
                             break;
                         case 'K' : // clear line
-                            i = av_len( args ) < 0 ? 0 : SvIV(* av_fetch( args, 0, 0 ) );
+                            temp_pv = av_fetch( args, 0, TRUE );
+                            i = looks_like_number( *temp_pv ) ? SvIV( *temp_pv ) : 0;
 
                             ENTER;
                             SAVETMPS;
