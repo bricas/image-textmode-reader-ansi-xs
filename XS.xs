@@ -124,6 +124,7 @@ PREINIT:
     int wrap = WRAP;
     int width = 0;
     int height = 0;
+    int filesize = 0;
     AV *args = newAV();
 CODE:
     int i;
@@ -144,9 +145,11 @@ CODE:
         wrap = WRAP;
     }
 
+    filesize = SvIV(* hv_fetch( options, "filesize", 8, 0 ) );
+
     PerlIO_rewind( file );
 
-    while ( state != S_END && ( c = PerlIO_getc( file ) ) != -1 ) {
+    while ( state != S_END && ( c = PerlIO_getc( file ) ) != -1 && PerlIO_tell( file ) <= filesize ) {
         switch ( state ) {
             case S_TXT      : // parse text
                 switch( c ) {
