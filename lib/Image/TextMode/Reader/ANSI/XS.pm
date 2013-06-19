@@ -44,15 +44,15 @@ same name.
 
 =head1 BENCHMARK
 
-    Image::TextMode version 0.15
-    Image::TextMode::Reader::ANSI::XS version 0.08
+    Image::TextMode version 0.22
+    Image::TextMode::Reader::ANSI::XS version 0.09
     Filesize: 75501 bytes
     Benchmark: timing 50 iterations of PP, XS...
-            PP: 42 wallclock secs (40.99 usr +  0.11 sys = 41.10 CPU) @  1.22/s (n=50)
-            XS:  2 wallclock secs ( 2.03 usr +  0.05 sys =  2.08 CPU) @ 24.04/s (n=50)
+            PP: 33 wallclock secs (32.03 usr +  0.01 sys = 32.04 CPU) @  1.56/s (n=50)
+            XS:  1 wallclock secs ( 1.59 usr +  0.03 sys =  1.62 CPU) @ 30.86/s (n=50)
          Rate    PP    XS
-    PP 1.22/s    --  -95%
-    XS 24.0/s 1876%    --
+    PP 1.56/s    --  -95%
+    XS 30.9/s 1878%    --
 
 =head1 AUTHOR
 

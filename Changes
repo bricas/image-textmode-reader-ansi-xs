@@ -1,10 +1,11 @@
 Revision history for Perl extension Image::TextMode::Reader::ANSI::XS.
 
-0.09 2013-06-18
+0.09 2013-06-19
  - Handle blink mode feature enable/disable codes
  - Handle attribute codes 2/22/25/7/27
  - Use filesize option from newer Image::TextMode to avoid reading into SAUCE
    records
+ - Support RGB ANSI codes
  - Update prereqs to require a newer version of Image:TextMode
 
 0.08 2011-06-28
