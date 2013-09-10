@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use XSLoader;
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 use base 'Image::TextMode::Reader';
 

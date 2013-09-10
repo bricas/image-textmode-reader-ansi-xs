@@ -17,7 +17,7 @@ store( image, x, y, c, attr, is_truecolor, rgb_f, rgb_b, wrap, width, height, pa
     SV *image;
     int *x;
     int *y;
-    char c;
+    unsigned char c;
     int attr;
     int is_truecolor;
     int *rgb_f;
@@ -178,9 +178,9 @@ _read( self, image, file, options )
     InputStream file
     HV *options
 PREINIT:
-    char c;
+    unsigned char c;
     int state = S_TXT;
-    char argbuf[ 255 ];
+    unsigned char argbuf[ 255 ];
     int arg_index = 0;
     int x = 0;
     int y = 0;
@@ -221,7 +221,7 @@ CODE:
 
     PerlIO_rewind( file );
 
-    while ( state != S_END && ( c = PerlIO_getc( file ) ) != -1 && PerlIO_tell( file ) <= filesize ) {
+    while ( state != S_END && ( c = PerlIO_getc( file ) ) != -1 && !PerlIO_eof( file ) && PerlIO_tell( file ) <= filesize ) {
         switch ( state ) {
             case S_TXT      : // parse text
                 switch( c ) {
