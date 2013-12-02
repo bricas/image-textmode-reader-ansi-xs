@@ -1,5 +1,8 @@
 Revision history for Perl extension Image::TextMode::Reader::ANSI::XS.
 
+0.11 2013-12-01
+ - Pull blink mode setting from SAUCE if available
+
 0.10 2013-09-09
  - Use unsigned char to make sure 0xff chars are readable
 
