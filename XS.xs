@@ -217,6 +217,16 @@ CODE:
         wrap = WRAP;
     }
 
+    // blink mode
+    SV *saucerec  = *hv_fetch( (HV *) SvRV( image ), "sauce", 5, 0 );
+        if( hv_exists( (HV *) SvRV( saucerec ), "has_sauce", 9 ) ) {
+        SV *has_sauce = *hv_fetch( (HV *) SvRV( saucerec ), "has_sauce", 9, 0 );
+        if( SvOK( has_sauce ) && SvTRUE( has_sauce ) ) {
+            int flags = SvIV( *hv_fetch( (HV *) SvRV( saucerec ), "flags_id", 8, 0 ) );
+            hv_store( render_opts, "blink_mode", 10, newSViv( 0 ), flags ^ 1 );
+        }
+    }
+
     filesize = SvIV(* hv_fetch( options, "filesize", 8, 0 ) );
 
     PerlIO_rewind( file );
