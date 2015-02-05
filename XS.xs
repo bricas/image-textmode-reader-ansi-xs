@@ -223,7 +223,7 @@ CODE:
         SV *has_sauce = *hv_fetch( (HV *) SvRV( saucerec ), "has_sauce", 9, 0 );
         if( SvOK( has_sauce ) && SvTRUE( has_sauce ) ) {
             int flags = SvIV( *hv_fetch( (HV *) SvRV( saucerec ), "flags_id", 8, 0 ) );
-            hv_store( render_opts, "blink_mode", 10, newSViv( 0 ), flags ^ 1 );
+            hv_store( render_opts, "blink_mode", 10, newSViv( 0 ), (flags & 1) ^ 1 );
         }
     }
 
