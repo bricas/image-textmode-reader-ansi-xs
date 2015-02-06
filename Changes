@@ -1,5 +1,8 @@
 Revision history for Perl extension Image::TextMode::Reader::ANSI::XS.
 
+0.12 2015-02-05
+ - Force bitwise-and 1 when doing XOR 1
+
 0.11 2013-12-01
  - Pull blink mode setting from SAUCE if available
 

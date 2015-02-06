@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use XSLoader;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 use base 'Image::TextMode::Reader';
 
@@ -60,7 +60,7 @@ Brian Cassidy E<lt>bricas@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2009-2013 by Brian Cassidy
+Copyright 2009-2015 by Brian Cassidy
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
